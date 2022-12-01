@@ -3,10 +3,19 @@ use std::io::{self, BufRead};
 use std::path::Path;
 
 fn main() {
-    part_1();
+    let calories = part_1();
+    part_2(calories);
 }
 
-fn part_1() {
+fn part_2(mut calories: Vec<i32>) {
+    calories.sort();
+    calories.reverse();
+
+    let total = calories[0] + calories[1] + calories[2];
+    println!("Top three calories total: {}", total);
+}
+
+fn part_1() -> Vec<i32> {
     let mut calories: Vec<i32> = Vec::new();
     let mut max: i32 = 0;
     let mut count: i32 = 0;
@@ -30,6 +39,8 @@ fn part_1() {
 
         println!("The max is {}", max); 
     }
+
+    calories
 }
 
 fn read_lines(filename: &str) -> io::Result<io::Lines<io::BufReader<File>>> {
