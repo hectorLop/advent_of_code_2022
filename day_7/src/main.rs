@@ -2,10 +2,27 @@ use std::fs;
 use std::collections::HashMap;
 
 fn main() {
-    part_1();
+    let counter = part_1();
+    part_2(counter);
 }
 
-fn part_1() {
+fn part_2(counter: HashMap<String, i32>) -> () {
+    let dir_space = counter.get("/-").unwrap();
+    let unused_space = 70000000 - dir_space;
+    
+    let mut min_folder_size = 70000000;
+    for value in counter.into_values() {
+        if unused_space + value >= 30000000 {
+            if value < min_folder_size {
+                min_folder_size = value;
+            }
+        }
+
+    }
+    println!("Part 2 final: {}", min_folder_size);
+}
+
+fn part_1() -> HashMap<String, i32> {
     let input = read_lines("src/input.txt");
     
     let mut path = "".to_string();
@@ -17,12 +34,14 @@ fn part_1() {
     }
     
     let mut count = 0;
-    for value in counter.into_values() {
+    for value in counter.clone().into_values() {
         if value <= 100000 {
             count += value;
         }
     }
     println!("Final {}", count);
+
+    counter
 }
 
 fn decide_action(line: String, path: String, counter: HashMap<String, i32>) -> (String, HashMap<String, i32>) {
